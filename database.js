@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt.js');
 
 const db = mysql.createConnection({
     host: 'localhost',
