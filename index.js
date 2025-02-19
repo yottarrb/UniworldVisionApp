@@ -380,16 +380,19 @@ const PORT = 3000;
 
 
 // Initialize database
+//initializeDatabase().then(() => {
+    // Start server only after database is initialized
+ //   app.listen(PORT, () => {
+  //      console.log(`Server running on port ${PORT}`);
+  //  });
+//});
+
+
+
+// Initialize database
 initializeDatabase().then(() => {
     // Start server only after database is initialized
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-});
-
-
-
-const server = app.listen(3000, () => {
+    app.listen(3000, () => {
     const interfaces = os.networkInterfaces();
     let serverIP = '';
     
@@ -402,4 +405,4 @@ const server = app.listen(3000, () => {
     }
 
     console.log(`✅ Server started on http://${serverIP}:3000`);
-});
+})});
