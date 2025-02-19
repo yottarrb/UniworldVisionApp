@@ -31,10 +31,21 @@ async function initializeDatabase() {
             CREATE TABLE IF NOT EXISTS products_app (
                 id VARCHAR(36) PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
-                category VARCHAR(50) NOT NULL,
+                category_id VARCHAR(36),
                 description TEXT,
                 price DECIMAL(10,2) NOT NULL,
                 imageUrl VARCHAR(255),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )
+        `);
+
+        // Create categories table
+        await db.promise().query(`
+            CREATE TABLE IF NOT EXISTS categories_app (
+                id VARCHAR(36) PRIMARY KEY,
+                name VARCHAR(100) NOT NULL UNIQUE,
+                description TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )

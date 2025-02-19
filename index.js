@@ -141,7 +141,7 @@ app.get('/api/products', authenticateToken, (req, res) => {
     db.query(`
         SELECT p.*, c.name as categoryName 
         FROM products_app p 
-        LEFT JOIN categories c ON p.category_id = c.id
+        LEFT JOIN categories_app c ON p.category_id = c.id
         ORDER BY p.created_at DESC
     `, (err, results) => {
         if (err) {
@@ -203,7 +203,7 @@ app.post('/api/products', authenticateToken, upload.single('image'), (req, res) 
                 db.query(`
                     SELECT p.*, c.name as categoryName 
                     FROM products_app p 
-                    LEFT JOIN categories c ON p.category_id = c.id
+                    LEFT JOIN categories_app c ON p.category_id = c.id
                     WHERE p.id = ?
                 `, [id], (err, results) => {
                     if (err) {
@@ -276,7 +276,7 @@ app.get('/api/users', authenticateToken, (req, res) => {
     }
 
     db.query(
-        'SELECT id, name, email, mobile, gender FROM users WHERE isAdmin = false',
+        'SELECT id, name, email, mobile, gender FROM users_app WHERE isAdmin = false',
         (err, results) => {
             if (err) {
                 console.error('Error fetching users:', err);
@@ -289,7 +289,7 @@ app.get('/api/users', authenticateToken, (req, res) => {
 
 // Category Routes
 app.get('/api/categories', authenticateToken, (req, res) => {
-    db.query('SELECT * FROM categories ORDER BY name', (err, results) => {
+    db.query('SELECT * FROM categories_app ORDER BY name', (err, results) => {
         if (err) {
             console.error('Error fetching categories:', err);
             return res.status(500).json({ error: 'Database error: ' + err.message });
