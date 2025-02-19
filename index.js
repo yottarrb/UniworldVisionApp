@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const { db, initializeDatabase } = require('./database');
 const fs = require('fs');
+const os = require('os');
 
 const app = express();
 app.use(express.json());
@@ -386,7 +387,7 @@ initializeDatabase().then(() => {
     });
 });
 
-const os = require('os');
+
 
 const server = app.listen(3000, () => {
     const interfaces = os.networkInterfaces();
