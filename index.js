@@ -377,21 +377,28 @@ app.delete('/api/categories/:id', authenticateToken, (req, res) => {
 // Start server
 const PORT = 3000;
 
+
 // Initialize database
 initializeDatabase().then(() => {
     // Start server only after database is initialized
-    const server = app.listen(3000, () => {
-        const interfaces = os.networkInterfaces();
-        let serverIP = '';
-        
-        for (let key in interfaces) {
-            for (let detail of interfaces[key]) {
-                if (detail.family === 'IPv4' && !detail.internal) {
-                    serverIP = detail.address;
-                }
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+});
+
+const os = require('os');
+
+const server = app.listen(3000, () => {
+    const interfaces = os.networkInterfaces();
+    let serverIP = '';
+    
+    for (let key in interfaces) {
+        for (let detail of interfaces[key]) {
+            if (detail.family === 'IPv4' && !detail.internal) {
+                serverIP = detail.address;
             }
         }
-    
-        console.log(`✅ Server started on http://${serverIP}:3000`);
-    });
-}); 
+    }
+
+    console.log(`✅ Server started on http://${serverIP}:3000`);
+});
