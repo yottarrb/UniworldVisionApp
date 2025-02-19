@@ -2,18 +2,18 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 
 const db = mysql.createConnection({
-    host: 'https://www.uniworldvision.com', // Linode server ka IP ya domain
-    user: 'uniworldvision', // MySQL username
-    password: 'Uniworldvision@2023', // MySQL password
-    database: 'uniworldvision', // MySQL database name
-    port: 3306 // MySQL default port
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306
 });
 
 async function initializeDatabase() {
     try {
         // Create users table
         await db.promise().query(`
-            CREATE TABLE IF NOT EXISTS users (
+            CREATE TABLE IF NOT EXISTS users_app (
                 id VARCHAR(36) PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
@@ -28,7 +28,7 @@ async function initializeDatabase() {
 
         // Create products table
         await db.promise().query(`
-            CREATE TABLE IF NOT EXISTS products (
+            CREATE TABLE IF NOT EXISTS products_app (
                 id VARCHAR(36) PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
                 category VARCHAR(50) NOT NULL,
@@ -42,7 +42,7 @@ async function initializeDatabase() {
 
         // Check if admin user exists
         const [admins] = await db.promise().query(
-            'SELECT * FROM users WHERE email = ?',
+            'SELECT * FROM users_app WHERE email = ?',
             ['admin@uniworldvision.com']
         );
 
@@ -50,7 +50,7 @@ async function initializeDatabase() {
         if (admins.length === 0) {
             const hashedPassword = await bcrypt.hash('admin123', 10);
             await db.promise().query(
-                'INSERT INTO users (id, name, email, password, mobile, gender, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO users_app (id, name, email, password, mobile, gender, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 [
                     'admin-uuid-1',
                     'Admin User',
