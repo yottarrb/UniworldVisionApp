@@ -150,7 +150,7 @@ app.get('/api/products', authenticateToken, (req, res) => {
         
         // Add full URL to image paths and log for debugging
         const productsWithFullUrls = results.map(product => {
-            const fullUrl = product.imageUrl ? `http://10.0.2.2:3000${product.imageUrl}` : null;
+            const fullUrl = product.imageUrl ? `https://uniworldvisionapp.onrender.com${product.imageUrl}` : null;
             console.log(`Product ${product.id}: ${product.imageUrl} -> ${fullUrl}`);
             return {
                 ...product,
@@ -212,7 +212,7 @@ app.post('/api/products', authenticateToken, upload.single('image'), (req, res) 
 
                     const product = results[0];
                     if (product.imageUrl) {
-                        product.imageUrl = `http://10.0.2.2:3000${product.imageUrl}`;
+                        product.imageUrl = `https://uniworldvisionapp.onrender.com${product.imageUrl}`;
                     }
 
                     res.json({
